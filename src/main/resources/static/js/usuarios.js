@@ -14,7 +14,10 @@
    const usuarios = await request.json();
    let listadoHTML='';
    for (let usuario of usuarios){
+
      let botonEliminar ='<a href="#" onclick="eliminarUsuario('+usuario.id+')" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>'
+
+     let telefonoTexto=usuario.telefono == null ? '-':usuario.telefono;
      let usuarioHTML= '<tr><td>'+usuario.id+
                       '<td>'+usuario.nombre+
                       '</td><td>'+usuario.email+
