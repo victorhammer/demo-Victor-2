@@ -1,4 +1,3 @@
-// Call the dataTables jQuery plugin
 $(document).ready(function() {
   alert("Esto es una prueba");
   $('#usuarios').DataTable();
@@ -6,7 +5,7 @@ $(document).ready(function() {
 
 function cargaUsuarios(){
 
-const request = await fetch('usuarios',{
+const request = await fetch('api/usuarios',{
     method: 'GET',
     headers: {
         'Accept': 'application/json',
