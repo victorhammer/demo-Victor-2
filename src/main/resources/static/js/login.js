@@ -16,7 +16,7 @@ async function iniciarSesion(){
     },
     body:JSON.stringify(datos)
   });
-  // No me gusta que devuelva String , cambio a JSON
+
   const respuesta = await response.json();
   if (respuesta.success == 'OK') window.location.href='usuarios.html';
   else alert(' Credenciales erróneas, intente de nuevo');

@@ -15,10 +15,10 @@ import java.util.Map;
 public class AuthController {
     @Autowired
     private UsuarioDao usuarioDao;
-    // Formateo respuesto como JSON
+
     @RequestMapping(value="api/login",
                     method= RequestMethod.POST)
-    // Cambio devolución de String a Json
+
     public Map loginUsuario(@RequestBody Usuario usuario){
         String respuesta="FAIL";
         if (usuarioDao.verificarCredenciales(usuario)) respuesta="OK";
