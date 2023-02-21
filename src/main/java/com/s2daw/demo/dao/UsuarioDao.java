@@ -10,4 +10,6 @@ public interface UsuarioDao {
     void eliminar(Long id);
 
     void registra(Usuario usuario);
+
+    boolean verificarCredenciales(Usuario usuario);
 }
