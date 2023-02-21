@@ -2,6 +2,7 @@ package com.s2daw.demo.controllers;
 
 import com.s2daw.demo.dao.UsuarioDao;
 import com.s2daw.demo.models.Usuario;
+import com.s2daw.demo.utils.JWTUtil;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +16,22 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioDao usuarioDao;
+
+    @Autowired
+    private JWTUtil jwtUtil;
+
     @RequestMapping(value="api/usuarios/{id}",method= RequestMethod.GET)
-    public Usuario getUsuario(@PathVariable Long id){
-        Usuario usuario = new Usuario();
-        usuario.setId(id);
-        usuario.setNombre("Víctor");
-        usuario.setApellidos("Alonso");
-        usuario.setEmail("alumno.53998@ies-azarquiel.es");
-        usuario.setTelefono("648702241");
+    public Usuario getUsuario(@RequestHeader(value="Authorization") String token,
+                              @PathVariable Long id){
+        if (!validarToken(token)) return null;
+        Usuario usuario=usuarioDao.getUsuario(id);
         return usuario;
     }
+
     @RequestMapping(value="api/usuarios",method= RequestMethod.GET)
-    public List<Usuario> getUsuarios(){
+    public List<Usuario> getUsuarios(@RequestHeader(value="Authorization") String token){
+        // Si devuelves null generas un problema en el front porque espera una lista
+        if (!validarToken(token)) return new ArrayList<>();
         return usuarioDao.getUsuarios();
     }
 
@@ -39,8 +44,16 @@ public class UsuarioController {
         usuarioDao.registra(usuario);
     }
 
-    @RequestMapping(value="api/usuarios/{id}",method= RequestMethod.DELETE)
-    public void eliminar(@PathVariable Long id){
+    @RequestMapping(value="api/eliminar/{id}",method= RequestMethod.DELETE)
+    public void eliminarUsuario(@RequestHeader(value="Authorization") String token,
+                                @PathVariable Long id){
+        if (!validarToken(token)) return;
         usuarioDao.eliminar(id);
+    }
+
+    // función de apoyo
+    private boolean validarToken(String token){
+        String usuarioid=jwtUtil.getKey(token);
+        return usuarioid!=null;
     }
 }
