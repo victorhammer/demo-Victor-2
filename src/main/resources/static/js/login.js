@@ -18,9 +18,10 @@ async function iniciarSesion(){
   });
 
   const respuesta = await response.json();
-  if (respuesta.success != 'FAIL')
+  if (respuesta.success != 'FAIL'){
    localStorage.token=respuesta;
    localStorage.email=datos.email;
    window.location.href='usuarios.html';
-  else alert(' Credenciales erróneas, intente de nuevo');
+
+  } else alert(' Credenciales erróneas, intente de nuevo');
 }
